@@ -12,7 +12,10 @@ const Edit = () => {
     const [ edad, setedad ] = useState('')
     const [ afiliacion, setafiliacion ] = useState('')
     const [ descripcion, setdescripcion ] = useState('')
-    const [ tituloarea, settituloarea ] = useState('')
+    const [tituloarea, setUserInfo] = useState({
+      languages: [],
+      response: [],
+    });
 
     const navigate = useNavigate()    
     const {id} = useParams()
@@ -20,10 +23,12 @@ const Edit = () => {
     const update = async (e) => {
         e.preventDefault()
         const product = doc(db, "heruesyvillanos", id)
-        const data = {nombrereal: nombrereal, nombredevillano: nombredevillano, edad: edad, afiliacion: afiliacion, descripcion: descripcion, tituloarea: tituloarea}
+        const data = {nombrereal: nombrereal, nombredevillano: nombredevillano, edad: edad, afiliacion: afiliacion, descripcion: descripcion, tituloarea: tituloarea.languages}
         await updateDoc(product, data)
         navigate('/Show')
     }
+
+    
 
     const getProductById = async (id) => {
         const product = await getDoc( doc(db, "heruesyvillanos", id) )
@@ -34,7 +39,7 @@ const Edit = () => {
             setedad(product.data().edad) 
             setafiliacion(product.data().afiliacion)  
             setdescripcion(product.data().descripcion)
-            settituloarea(product.data().tituloarea)
+            
             
         }else{
             console.log('El producto no existe')
@@ -96,7 +101,31 @@ const Edit = () => {
   }, [] )
 
 
-    
+  
+  
+  const handleChange = (e) => {
+    // Destructuring
+    const { value, checked } = e.target;
+    const { languages } = tituloarea;
+      
+    console.log(`${value} is ${checked}`);
+     
+    // Case 1 : The user checks the box
+    if (checked) {
+      setUserInfo({
+        languages: [...languages, value],
+        response: [...languages, value],
+      });
+    }
+  
+    // Case 2  : The user unchecks the box
+    else {
+      setUserInfo({
+        languages: languages.filter((e) => e !== value),
+        response: languages.filter((e) => e !== value),
+      });
+    }
+  };
 
     return (
 
@@ -112,6 +141,8 @@ const Edit = () => {
                             onChange={ (e) => setnombrereal(e.target.value)} 
                             type="text"
                             className='form-control'
+                            pattern="[A-Za-z]+"
+                            required
                         />
                     </div>  
        
@@ -122,6 +153,8 @@ const Edit = () => {
                             onChange={ (e)=> setnombredevillano(e.target.value)} 
                             type="text"
                             className='form-control'
+                            pattern="[A-Za-z]+"
+                            required
                         />                 
                     </div>  
                     <div className='mb-3'>
@@ -131,6 +164,8 @@ const Edit = () => {
                             onChange={ (e)=> setedad(e.target.value)} 
                             type="text"
                             className='form-control'
+                            required
+                            pattern="[0-9]+" 
                         />                 
                     </div> 
                    
@@ -138,13 +173,13 @@ const Edit = () => {
               <label className='form-label'><b>Sexo</b></label>
               <br />
               <label className='form-label'>Mujer</label>
-              <input type="radio" name='origen' value=' Mujer' onChange={(e) => setafiliacion(e.target.value)} />
+              <input type="radio" name='Sexo' value=' Mujer' onChange={(e) => setafiliacion(e.target.value)} />
               <br />
               <label className='form-label'>Hombre</label>
-              <input type="radio" name='origen' value='Hombre' onChange={(e) => setafiliacion(e.target.value)} />
+              <input type="radio" name='Sexo' value='Hombre' onChange={(e) => setafiliacion(e.target.value)} />
               <br />
               <label className='form-label'>No especificado</label>
-              <input type="radio" name='origen' value='No especificado' onChange={(e) => setafiliacion(e.target.value)} />
+              <input type="radio" name='Sexo' value='No especificado' onChange={(e) => setafiliacion(e.target.value)} />
               <br />
 
             </div>
@@ -154,13 +189,13 @@ const Edit = () => {
               <label className='form-label'><b>Origen</b></label>
               <br />
               <label className='form-label'>Natural Humano</label>
-              <input type="radio" name='origen' value=' Natural Humano' onChange={(e) => setdescripcion(e.target.value)}/>
+              <input type="radio" name='origen' value=' Natural Humano' onChange={(e) => setdescripcion(e.target.value)} />
               <br />
               <label className='form-label'>Extraterrestre</label>
-              <input type="radio" name='origen' value='Extraterrestre' onChange={(e) => setdescripcion(e.target.value)} />
+              <input type="radio" name='origen' value='Extraterrestre' onChange={(e) => setdescripcion(e.target.value)}  />
               <br />
               <label className='form-label'>Experimento Científico</label>
-              <input type="radio" name='origen' value='Experimento Científico' onChange={(e) => setdescripcion(e.target.value)} />
+              <input type="radio" name='origen' value='Experimento Científico' onChange={(e) => setdescripcion(e.target.value)}  />
               <br />
               <label className='form-label'>Mutante</label>
               <input type="radio" name='origen' value='Mutante' onChange={(e) => setdescripcion(e.target.value)} />
@@ -168,54 +203,257 @@ const Edit = () => {
 
             </div>
 
-            <div className='mb-3'>
-              <label className='form-label'><b>Titulo area</b></label>
-              <br />
-              <label className='form-label'>Volador</label>
-              <input type="checkbox" name="Volador"  value="Volador" onChange={(e) => settituloarea(e.target.value)} />
-              <br />
-              <label className='form-label'>Velocidad</label>
-              <input type="checkbox" name="Velocidad"  value="Velocidad" onChange={(e) => settituloarea(e.target.value)} />
-              <br />
-              <label className='form-label'>Fuerza</label>
-              <input type="checkbox" name="Fuerza"  value="Fuerza" onChange={(e) => settituloarea(e.target.value)} />
-              <br />
-              <label className='form-label'>Visión</label>
-              <input type="checkbox" name="Visión"  value="Visión" onChange={(e) => settituloarea(e.target.value)} />
-              <br />
-              <label className='form-label'>Oído </label>
-              <input type="checkbox" name="Oído"  value="Oído" onChange={(e) => settituloarea(e.target.value)} />
-              <br />
-              <label className='form-label'>Invulnerabilidad</label>
-              <input type="checkbox" name="Invulnerabilidad"  value="Invulnerabilidad" onChange={(e) => settituloarea(e.target.value)} />
-              <br />
-              <label className='form-label'>Telepatia</label>
-              <input type="checkbox" name="Telepatia"  value="Telepatia" onChange={(e) => settituloarea(e.target.value)} />
-              <br />
-              <label className='form-label'>Telequinesis</label>
-              <input type="checkbox" name="Telequinesis"  value="Telequinesis" onChange={(e) => settituloarea(e.target.value)} />
-              <br />
-              <label className='form-label'>Lanza Rayos</label>
-              <input type="checkbox" name="Lanza Rayos"  value="Lanza Rayos" onChange={(e) => settituloarea(e.target.value)} />
-              <br />
-              <label className='form-label'>Artes Marciales</label>
-              <input type="checkbox" name="Artes Marciales"  value="Artes Marciales" onChange={(e) => settituloarea(e.target.value)} />
-              <br />
-              <label className='form-label'>Inteligencia</label>
-              <input type="checkbox" name="Inteligencia"  value="Inteligencia" onChange={(e) => settituloarea(e.target.value)} />
-              <br />
-              <label className='form-label'>Acrobacia</label>
-              <input type="checkbox" name="Acrobacia"  value="Acrobacia" onChange={(e) => settituloarea(e.target.value)} />
-              <br />
-              <label className='form-label'>Armadura</label>
-              <input type="checkbox" name="Armadura"  value="Armadura" onChange={(e) => settituloarea(e.target.value)} />
-              <br />
-              <label className='form-label'>Tecnología</label>
-              <input type="checkbox" name="Tecnología"  value="Tecnología" onChange={(e) => settituloarea(e.target.value)} />
-              <br />
-              
+            <div className="container-fluid top ">
+        <div className="container mt-5  pb-5 pt-5">
+          <h3 className="form-head-contact-h3 ">
+           Titulo de área : Caracteristicas{" "}
+          </h3>
+  
+         
+            <div className="row">
+              <div className="col-md-6">
+                <div className="form-check m-3">
+                  <input
+                    className="form-check-input"
+                    type="checkbox"
+                    name="languages"
+                    value="Volador"
+                    id="flexCheckDefault"
+                    onChange={handleChange}
+                  />
+                  <label
+                    className="form-check-label"
+                    htmlFor="flexCheckDefault"
+                  >
+                      Volador
+                  </label>
+                </div>
+                <div className="form-check m-3">
+                  <input
+                    className="form-check-input"
+                    type="checkbox"
+                    name="languages"
+                    value="Velocidad"
+                    id="flexCheckDefault"
+                    onChange={handleChange}
+                  />
+                  <label
+                    className="form-check-label"
+                    htmlFor="flexCheckDefault"
+                  >
+                      Velocidad
+                  </label>
+                </div>
+                <div className="form-check m-3">
+                  <input
+                    className="form-check-input"
+                    type="checkbox"
+                    name="languages"
+                    value="Fuerza"
+                    id="flexCheckDefault"
+                    onChange={handleChange}
+                  />
+                  <label
+                    className="form-check-label"
+                    htmlFor="flexCheckDefault"
+                  >
+                      Fuerza
 
+                  </label>
+                </div>
+                <div className="form-check m-3">
+                  <input
+                    className="form-check-input"
+                    type="checkbox"
+                    name="languages"
+                    value="Mutante"
+                    id="flexCheckDefault"
+                    onChange={handleChange}
+                  />
+                  <label
+                    className="form-check-label"
+                    htmlFor="flexCheckDefault"
+                  >
+                      Mutante
+                  </label>
+                </div>
+              </div>
+              <div className="col-md-6">
+                <div className="form-check m-3">
+                  <input
+                    className="form-check-input"
+                    type="checkbox"
+                    name="languages"
+                    value="Visión"
+                    id="flexCheckDefault"
+                    onChange={handleChange}
+                  />
+                  <label
+                    className="form-check-label"
+                    htmlFor="flexCheckDefault"
+                  >
+                      Visión
+                  </label>
+                </div>
+                <div className="form-check m-3">
+                  <input
+                    className="form-check-input"
+                    type="checkbox"
+                    name="languages"
+                    value="Oído"
+                    id="flexCheckDefault"
+                    onChange={handleChange}
+                  />
+                  <label
+                    className="form-check-label"
+                    htmlFor="flexCheckDefault"
+                  >
+                      Oído
+                  </label>
+                </div>
+                <div className="form-check m-3">
+                  <input
+                    className="form-check-input"
+                    type="checkbox"
+                    name="languages"
+                    value="Invulnerabilidad"
+                    id="flexCheckDefault"
+                    onChange={handleChange}
+                  />
+                  <label
+                    className="form-check-label"
+                    htmlFor="flexCheckDefault"
+                  >
+                      Invulnerabilidad
+                  </label>
+                </div>
+                <div className="form-check m-3">
+                  <input
+                    className="form-check-input"
+                    type="checkbox"
+                    name="languages"
+                    value="Telepatia"
+                    id="flexCheckDefault"
+                    onChange={handleChange}
+                  />
+                  <label
+                    className="form-check-label"
+                    htmlFor="flexCheckDefault"
+                  >
+                      Telepatia
+                  </label>
+                </div>
+
+                <div className="form-check m-3">
+                  <input
+                    className="form-check-input"
+                    type="checkbox"
+                    name="languages"
+                    value="Lanza Rayos"
+                    id="flexCheckDefault"
+                    onChange={handleChange}
+                  />
+                  <label
+                    className="form-check-label"
+                    htmlFor="flexCheckDefault"
+                  >
+                      Lanza Rayos
+                  </label>
+                </div>
+
+                <div className="form-check m-3">
+                  <input
+                    className="form-check-input"
+                    type="checkbox"
+                    name="languages"
+                    value="Artes Marciales"
+                    id="flexCheckDefault"
+                    onChange={handleChange}
+                  />
+                  <label
+                    className="form-check-label"
+                    htmlFor="flexCheckDefault"
+                  >
+                      Artes Marciales
+                  </label>
+                </div>
+
+                <div className="form-check m-3">
+                  <input
+                    className="form-check-input"
+                    type="checkbox"
+                    name="languages"
+                    value="Inteligencia"
+                    id="flexCheckDefault"
+                    onChange={handleChange}
+                  />
+                  <label
+                    className="form-check-label"
+                    htmlFor="flexCheckDefault"
+                  >
+                      Inteligencia
+                  </label>
+                </div>
+
+                <div className="form-check m-3">
+                  <input
+                    className="form-check-input"
+                    type="checkbox"
+                    name="languages"
+                    value="Acrobacia"
+                    id="flexCheckDefault"
+                    onChange={handleChange}
+                  />
+                  <label
+                    className="form-check-label"
+                    htmlFor="flexCheckDefault"
+                  >
+                      Acrobacia
+                  </label>
+                </div>
+
+                <div className="form-check m-3">
+                  <input
+                    className="form-check-input"
+                    type="checkbox"
+                    name="languages"
+                    value="Armadura"
+                    id="flexCheckDefault"
+                    onChange={handleChange}
+                  />
+                  <label
+                    className="form-check-label"
+                    htmlFor="flexCheckDefault"
+                  >
+                      Armadura
+                  </label>
+                </div>
+
+                <div className="form-check m-3">
+                  <input
+                    className="form-check-input"
+                    type="checkbox"
+                    name="languages"
+                    value="Tecnología"
+                    id="flexCheckDefault"
+                    onChange={handleChange}
+                  />
+                  <label
+                    className="form-check-label"
+                    htmlFor="flexCheckDefault"
+                  >
+                      Tecnología
+                  </label>
+                </div>
+              </div>
             </div>
+  
+            
+         
+        </div>
+      </div>
+
+            
             
                     
                     <button type='submit' className='btn btn-primary'>Actualizar</button>
@@ -243,6 +481,7 @@ const Edit = () => {
                   <td>{product.afiliacion}</td>
                   <td>{product.descripcion}</td>
                   <td>{product.tituloarea}</td>
+                  <td>{product.tituloarea.toString()}</td>
 
                   <td>
                  
