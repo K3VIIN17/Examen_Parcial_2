@@ -112,6 +112,8 @@ const Edit = () => {
                             onChange={ (e) => setnombrereal(e.target.value)} 
                             type="text"
                             className='form-control'
+                            pattern="[A-Za-z]+"
+                            required
                         />
                     </div>  
        
@@ -122,6 +124,8 @@ const Edit = () => {
                             onChange={ (e)=> setnombredevillano(e.target.value)} 
                             type="text"
                             className='form-control'
+                            pattern="[A-Za-z]+"
+                            required
                         />                 
                     </div>  
                     <div className='mb-3'>
@@ -131,6 +135,8 @@ const Edit = () => {
                             onChange={ (e)=> setedad(e.target.value)} 
                             type="text"
                             className='form-control'
+                            required
+                            pattern="[0-9]+" 
                         />                 
                     </div> 
                    
@@ -138,13 +144,13 @@ const Edit = () => {
               <label className='form-label'><b>Sexo</b></label>
               <br />
               <label className='form-label'>Mujer</label>
-              <input type="radio" name='origen' value=' Mujer' onChange={(e) => setafiliacion(e.target.value)} />
+              <input type="radio" name='Sexo' value=' Mujer' onChange={(e) => setafiliacion(e.target.value)} />
               <br />
               <label className='form-label'>Hombre</label>
-              <input type="radio" name='origen' value='Hombre' onChange={(e) => setafiliacion(e.target.value)} />
+              <input type="radio" name='Sexo' value='Hombre' onChange={(e) => setafiliacion(e.target.value)} />
               <br />
               <label className='form-label'>No especificado</label>
-              <input type="radio" name='origen' value='No especificado' onChange={(e) => setafiliacion(e.target.value)} />
+              <input type="radio" name='Sexo' value='No especificado' onChange={(e) => setafiliacion(e.target.value)} />
               <br />
 
             </div>
@@ -154,13 +160,13 @@ const Edit = () => {
               <label className='form-label'><b>Origen</b></label>
               <br />
               <label className='form-label'>Natural Humano</label>
-              <input type="radio" name='origen' value=' Natural Humano' onChange={(e) => setdescripcion(e.target.value)}/>
+              <input type="radio" name='origen' value=' Natural Humano' onChange={(e) => setdescripcion(e.target.value)} />
               <br />
               <label className='form-label'>Extraterrestre</label>
-              <input type="radio" name='origen' value='Extraterrestre' onChange={(e) => setdescripcion(e.target.value)} />
+              <input type="radio" name='origen' value='Extraterrestre' onChange={(e) => setdescripcion(e.target.value)}  />
               <br />
               <label className='form-label'>Experimento Científico</label>
-              <input type="radio" name='origen' value='Experimento Científico' onChange={(e) => setdescripcion(e.target.value)} />
+              <input type="radio" name='origen' value='Experimento Científico' onChange={(e) => setdescripcion(e.target.value)}  />
               <br />
               <label className='form-label'>Mutante</label>
               <input type="radio" name='origen' value='Mutante' onChange={(e) => setdescripcion(e.target.value)} />

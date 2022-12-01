@@ -104,6 +104,7 @@ const Show = () => {
                             onChange={ (e) => setnombrereal(e.target.value)} 
                             type="text"
                             className='form-control'
+                            pattern="[A-Za-z]+"
                             required
                         />
                     </div> 
@@ -114,6 +115,7 @@ const Show = () => {
                             onChange={ (e) => setnombredevillano(e.target.value)} 
                             type="text"
                             className='form-control'
+                            pattern="[A-Za-z]+"
                             required
                         />
                     </div> 
@@ -124,7 +126,9 @@ const Show = () => {
                             onChange={ (e) => setedad(e.target.value)} 
                             type="text"
                             className='form-control'
-                            required
+                           
+                            pattern="[0-9]+" 
+                            
                         />
                     </div>  
                     <div className='mb-3'>
@@ -135,13 +139,13 @@ const Show = () => {
               <label className='form-label'><b>Sexo</b></label>
               <br />
               <label className='form-label'>Mujer</label>
-              <input type="radio" name='origen' value=' Mujer' onChange={(e) => setafiliacion(e.target.value)} required/>
+              <input type="radio" name='Sexo' value=' Mujer' onChange={(e) => setafiliacion(e.target.value)} required/>
               <br />
               <label className='form-label'>Hombre</label>
-              <input type="radio" name='origen' value='Hombre' onChange={(e) => setafiliacion(e.target.value)} required/>
+              <input type="radio" name='Sexo' value='Hombre' onChange={(e) => setafiliacion(e.target.value)} required/>
               <br />
               <label className='form-label'>No especificado</label>
-              <input type="radio" name='origen' value='No especificado' onChange={(e) => setafiliacion(e.target.value)} required/>
+              <input type="radio" name='Sexo' value='No especificado' onChange={(e) => setafiliacion(e.target.value)} required/>
               <br />
 
             </div>
