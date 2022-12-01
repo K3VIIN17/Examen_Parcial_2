@@ -238,7 +238,7 @@ const Show = () => {
             <thead>
               <tr>
                 <th>Nombre real</th>
-                <th>Nombre de villano</th>
+                <th>Nombre de Súper Héroe</th>
                 <th>Edad</th>
                 <th>Sexo</th>
                 <th>Origen</th>
